@@ -2,6 +2,44 @@
 #include<bitset>
 #include<cmath>
 using namespace std;
+void k_series_and_its_further_extenstion(bitset<32> (&k_numbers)[64],bitset<32> (&H_numbers)[8]) {
+    int index_inc = -1;
+    int b[64];
+    for (int i = 2;;i++) {
+        int verifier = 0;
+        for (int j = i-1; j>=2; --j) {
+            if (i%j == 0) {
+                ++verifier;
+            }
+        }
+        if (verifier == 0) {
+            b[++index_inc] = i;
+        }
+        if (index_inc == 63) {
+            break;
+        }
+    }
+    bitset<32> k_numers[64];
+    bitset<32> H_numers[8];
+    for (int i = 0 ; i < 64; i++) {
+        double cube_root = cbrt(b[i]);
+        double fractional_part = cube_root - floor(cube_root);
+        long long int k = fractional_part*pow(2,32);
+        k_numers[i] = bitset<32>(k);
+    }
+    for (int i =0; i<8;i++) {
+        double square_root = sqrt(b[i]);
+        double fractional_part = square_root - floor(square_root);
+        long long int k = fractional_part*pow(2,32);
+        H_numers[i] = bitset<32>(k);
+    }
+    for (int i = 0; i < 64; i++) {
+        k_numbers[i] = k_numers[i];
+    }
+    for (int i = 0; i<8; i++) {
+        H_numbers[i] = H_numers[i];
+    }
+}
 bitset<32> rotate_right(bitset<32> unit0, int rotation) {
     bitset<32> a;
     int i = -1;
@@ -76,44 +114,6 @@ bitset<32> majority(bitset<32> unit0,bitset<32> unit1, bitset<32> unit2){
         }
     }
     return storage_unit;
-}
-void k_series_and_its_further_extenstion(bitset<32> (&k_numbers)[64],bitset<32> (&H_numbers)[8]) {
-    int index_inc = -1;
-    int b[64];
-    for (int i = 2;;i++) {
-        int verifier = 0;
-        for (int j = i-1; j>=2; --j) {
-            if (i%j == 0) {
-                ++verifier;
-            }
-        }
-        if (verifier == 0) {
-            b[++index_inc] = i;
-        }
-        if (index_inc == 63) {
-            break;
-        }
-    }
-    bitset<32> k_numers[64];
-    bitset<32> H_numers[8];
-    for (int i = 0 ; i < 64; i++) {
-        double cube_root = cbrt(b[i]);
-        double fractional_part = cube_root - floor(cube_root);
-        long long int k = fractional_part*pow(2,32);
-        k_numers[i] = bitset<32>(k);
-    }
-    for (int i =0; i<8;i++) {
-        double square_root = sqrt(b[i]);
-        double fractional_part = square_root - floor(square_root);
-        long long int k = fractional_part*pow(2,32);
-        H_numers[i] = bitset<32>(k);
-    }
-    for (int i = 0; i < 64; i++) {
-        k_numbers[i] = k_numers[i];
-    }
-    for (int i = 0; i<8; i++) {
-        H_numbers[i] = H_numers[i];
-    }
 }
 bitset<32> T1(bitset<32> e, bitset<32> f, bitset<32> g,bitset<32> h,bitset<32> k_t,bitset<32> w_t) {
     long long int a[5];
